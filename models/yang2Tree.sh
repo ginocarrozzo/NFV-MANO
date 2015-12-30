@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to Generate TREE from YANG models ##
+# Script to Generate TREE from YANG models ###
 
 echo $0
 echo "Script to Generate TREE from YANG models"
