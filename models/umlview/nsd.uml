@@ -1,0 +1,66 @@
+'Download plantuml from http://plantuml.sourceforge.net/ 
+'Generate png with java -jar plantuml.jar <file> 
+'Output in img/<module>.png 
+'If Java spits out memory error increase heap size with java -Xmx1024m  -jar plantuml.jar <file> 
+@startuml img/nsd.png 
+hide empty fields 
+hide empty methods 
+hide <<case>> circle
+hide <<augment>> circle
+hide <<choice>> circle
+hide <<leafref>> stereotype
+hide <<leafref>> circle
+page 1x1 
+Title nsd 
+package "yang:ietf-yang-types" as yang_ietf_yang_types { 
+} 
+note top of nsd_nsd : <b>Namespace: </b> urn:ietf:params:xml:ns:yang:nfvo \n<b>Prefix: </b> nsd \n<b>Organization : </b>\nexample.org \n<b>Contact : </b>\nFirstname Lastname - lastname@example.com \n<b>Revision : </b> 2013-12-23 \n
+package "nsd:nsd" as nsd_nsd { 
+yang_ietf_yang_types +-- nsd_nsd
+class "nsd" as nsd << (M, #33CCFF) module>> 
+class "nsd" as  nsd_I_nsd <<container>> 
+nsd *-- "1" nsd_I_nsd 
+nsd_I_nsd : name : string  
+nsd_I_nsd : id : yang:uuid  
+nsd_I_nsd : vendor : string  
+nsd_I_nsd : description : string  
+nsd_I_nsd : version : string  
+class "monitoring-params" as nsd_I_nsd_I_monitoring_params << (L, #FF7700) list>> 
+nsd_I_nsd *-- "0..N" nsd_I_nsd_I_monitoring_params 
+nsd_I_nsd_I_monitoring_params : +param-id : string  {key} 
+nsd_I_nsd_I_monitoring_params : description : string  
+class "connection-points" as nsd_I_nsd_I_connection_points << (L, #FF7700) list>> 
+nsd_I_nsd *-- "0..N" nsd_I_nsd_I_connection_points 
+nsd_I_nsd_I_connection_points : +connection-point-id : string  {key} 
+nsd_I_nsd_I_connection_points : description : string  
+class "flavours" as nsd_I_nsd_I_flavours << (L, #FF7700) list>> 
+nsd_I_nsd *-- "0..N" nsd_I_nsd_I_flavours 
+nsd_I_nsd_I_flavours : +flavour-id : string  {key} 
+nsd_I_nsd_I_flavours : description : string  
+class "flavour-key" as nsd_I_nsd_I_flavours_I_flavour_key << (L, #FF7700) list>> 
+nsd_I_nsd_I_flavours *-- "0..N" nsd_I_nsd_I_flavours_I_flavour_key 
+nsd_I_nsd_I_flavours_I_flavour_key : +param-id : leafref : ../../../monitoring-params/param-id  {key} 
+nsd_I_nsd_I_flavours_I_flavour_key : value : uint32  
+class "constituent-vnfs" as nsd_I_nsd_I_flavours_I_constituent_vnfs << (L, #FF7700) list>> 
+nsd_I_nsd_I_flavours *-- "0..N" nsd_I_nsd_I_flavours_I_constituent_vnfs 
+nsd_I_nsd_I_flavours_I_constituent_vnfs : +member-vnf-id : string  {key} 
+nsd_I_nsd_I_flavours_I_constituent_vnfs : vnfd : yang:uuid  
+class "vnf-dependencies" as  nsd_I_nsd_I_flavours_I_vnf_dependencies <<container>> 
+nsd_I_nsd_I_flavours *-- "1" nsd_I_nsd_I_flavours_I_vnf_dependencies 
+class "vvnf-dependency-list" as nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list << (L, #FF7700) list>> 
+nsd_I_nsd_I_flavours_I_vnf_dependencies *-- "0..N" nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list 
+nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list : +vnf-id : leafref : ../../../constituent-vnfs/member-vnf-id  {key} 
+nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list : depends-on : leafref : ../../../constituent-vnfs/member-vnf-id  
+class "member-vlds" as nsd_I_nsd_I_flavours_I_member_vlds << (L, #FF7700) list>> 
+nsd_I_nsd_I_flavours *-- "0..N" nsd_I_nsd_I_flavours_I_member_vlds 
+nsd_I_nsd_I_flavours_I_member_vlds : +member-vld-id : string  {key} 
+nsd_I_nsd_I_flavours_I_member_vlds : vld-id : yang:uuid  
+} 
+
+nsd_I_nsd_I_flavours_I_flavour_key-->"param-id"nsd_I_nsd_I_monitoring_params: param-id
+nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list-->"member-vnf-id"nsd_I_nsd_I_flavours_I_constituent_vnfs: vnf-id
+nsd_I_nsd_I_flavours_I_vnf_dependencies_I_vvnf_dependency_list-->"member-vnf-id"nsd_I_nsd_I_flavours_I_constituent_vnfs: depends-on
+center footer
+ <size:20> UML Generated : 2015-12-30 15:51 </size>
+ endfooter 
+@enduml 

@@ -1,0 +1,80 @@
+module: vnfd
+   +--rw vnfd
+      +--rw name?                    string
+      +--rw vnfd-id?                 yang:uuid
+      +--rw provider?                string
+      +--rw description?             string
+      +--rw version?                 string
+      +--rw workflows
+      |  +--rw init
+      |  +--rw terminate
+      |  +--rw graceful-shutdown
+      +--rw connection-points* [connection-point-id]
+      |  +--rw connection-point-id    string
+      |  +--rw description?           string
+      +--rw internal-virtual-link* [connectivity-id]
+      |  +--rw connectivity-id             string
+      |  +--rw connectivity-description?   string
+      |  +--rw connection-end-points*      -> ../../flavours/vdus/network-interfaces/name
+      +--rw monitoring-params* [param-id]
+      |  +--rw param-id       string
+      |  +--rw description?   string
+      +--rw flavours* [flavour-id]
+      |  +--rw flavour-id          string
+      |  +--rw description?        string
+      |  +--rw assurance-params* [param-id]
+      |  |  +--rw param-id    -> ../../../monitoring-params/param-id
+      |  |  +--rw value?      uint32
+      |  +--rw vdus* [vdu-id]
+      |     +--rw vdu-id                string
+      |     +--rw num-instances?        uint16
+      |     +--rw workflows
+      |     |  +--rw init
+      |     |  +--rw terminate
+      |     |  +--rw graceful-shutdown
+      |     +--rw vm-spec
+      |     |  +--rw (image)?
+      |     |     +--:(image-uri)
+      |     |     |  +--rw pkg-uri?    inet:uri
+      |     |     +--:(image-uuid)
+      |     |        +--rw pkg-uuid?   yang:uuid
+      |     +--rw storage* [storage-id]
+      |     |  +--rw storage-id    string
+      |     |  +--rw size-gb?      uint16
+      |     |  +--rw properties* [property-id]
+      |     |     +--rw property-id             string
+      |     |     +--rw property-description?   string
+      |     |     +--rw property-value?         string
+      |     +--rw cpu
+      |     |  +--rw num-vpu?      int16
+      |     |  +--rw properties* [property-id]
+      |     |     +--rw property-id             string
+      |     |     +--rw property-description?   string
+      |     |     +--rw property-value?         string
+      |     +--rw memory
+      |     |  +--rw total-memory-gb?   int16
+      |     |  +--rw properties* [property-id]
+      |     |     +--rw property-id             string
+      |     |     +--rw property-description?   string
+      |     |     +--rw property-value?         string
+      |     +--rw other-constraints* [constraint-id]
+      |     |  +--rw constraint-id             string
+      |     |  +--rw constraint-description?   string
+      |     |  +--rw constraint-value?         string
+      |     +--rw network-interfaces* [name]
+      |        +--rw name                         string
+      |        +--rw description?                 string
+      |        +--rw (connection-point)?
+      |        |  +--:(connection-point)
+      |        |  |  +--rw connection-point-ref?        -> ../../../../connection-points/connection-point-id
+      |        |  +--:(internal-connectivity)
+      |        |     +--rw internal-connectivity-ref?   -> ../../../../internal-virtual-link/connectivity-id
+      |        +--rw properties* [id]
+      |           +--rw id       string
+      |           +--rw value?   string
+      +--rw dependencies
+      |  +--rw vdu-dependency-list* [vdu-id]
+      |     +--rw vdu-id        -> ../../../flavours/vdus/vdu-id
+      |     +--rw depends-on?   -> ../../../flavours/vdus/vdu-id
+      +--rw autoscaling-policies* [scaling-policy-id]
+         +--rw scaling-policy-id    string

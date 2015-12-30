@@ -1,0 +1,150 @@
+module nsd {
+
+    namespace "urn:ietf:params:xml:ns:yang:nfvo";
+    prefix "nsd";
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+
+    import ietf-inet-types {
+        prefix inet;
+    }
+
+    organization
+        "example.org";
+    contact
+        "Firstname Lastname - lastname@example.com";
+    description
+        "Network Service Descriptor";
+
+    revision 2013-12-23 {
+        description
+            "Initial revision";
+    }
+
+    container nsd {
+        leaf name {
+            description "Network Service Name";
+            type string;
+        }
+
+        leaf id {
+            description "Network Service Descriptor ID";
+            type yang:uuid;
+        }
+
+        leaf vendor {
+            description "Provider";
+            type string;
+        }
+        
+        leaf description {
+            description "Description of the Network Service Descriptor";
+            type string;
+        }   
+
+        leaf version {
+            description "Version";
+            type string;
+        }
+
+        list monitoring-params {
+            key param-id;
+
+            leaf param-id {
+                type string;
+            }
+
+            leaf description {
+                type string;
+                description "Description";
+            }
+        }
+
+        list connection-points {
+            description "End Points for the Network Service";
+            key connection-point-id;
+            
+            leaf connection-point-id {
+                type string;
+            }
+
+            leaf description {
+                type string;
+                description "Description of the End point";
+            }
+        }
+
+        list flavours {
+            key flavour-id;
+
+            leaf flavour-id {
+                description "Flavour id";
+                type string;
+            }
+
+            leaf description {
+                description "Description of the flavour";
+                type string;
+            }
+
+            list flavour-key {
+                description "Flavour key";
+                key param-id;
+
+                leaf param-id {
+                    type leafref {
+                    path "../../../monitoring-params/param-id";
+                    }
+                }
+
+                leaf value {
+                    type uint32;
+                }
+            }
+
+            list constituent-vnfs {
+                key member-vnf-id;
+                
+                leaf member-vnf-id {
+                    type string;
+                }
+
+                leaf vnfd {
+                    type yang:uuid;
+                }
+            }
+
+            container vnf-dependencies {
+                list vvnf-dependency-list {
+                    key vnf-id;
+                    
+                    leaf vnf-id {
+                        type leafref {
+                            path "../../../member-vnfs/member-vnf-id";
+                        }
+                    }
+
+                    leaf depends-on {
+                        type leafref {
+                            path "../../../member-vnfs/member-vnf-id";
+                        }
+                    }
+                }
+            }
+
+            list member-vlds {
+                key member-vld-id;
+                
+                leaf member-vld-id {
+                    type string;
+                }
+            
+                leaf vld-id {
+                    type yang:uuid;
+                }
+            }
+        }
+    }
+}

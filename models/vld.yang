@@ -1,0 +1,82 @@
+module vld {
+
+    namespace "urn:ietf:params:xml:ns:yang:nfvo";
+    prefix "vld";
+
+    import ietf-yang-types {
+        prefix yang;
+        revision-date 2013-07-15;
+    }
+
+/*
+    import ietf-inet-types {
+        prefix inet;
+    }
+*/
+
+    organization
+        "example.org";
+    contact
+        "Firstname Lastname - lastname@example.com";
+    description
+        "Virtual Link Descriptor";
+
+    revision 2013-12-23 {
+        description
+            "Initial revision";
+    }
+
+    container vld {
+    leaf name {
+        description "Description of the Virtual Link Descriptor";
+        type string;
+    }
+
+    leaf vld-id {
+        description "UUID of the VLD";
+        type yang:uuid;
+    }
+
+    leaf provider {
+        description "Provider";
+        type string;
+    }
+    
+    leaf description {
+        description "Description of the VNF";
+        type string;
+    }
+
+    leaf version {
+        description "Version";
+        type string;
+    }
+
+    leaf latency-assurance {
+        type uint16;
+    }   
+
+    leaf max-end-points {
+        type uint16;
+    }
+
+    list properties {
+        description "Vendor specific properties";
+        key property-id;
+        
+        leaf property-id {
+            type string;
+        }   
+
+        leaf property-description {
+            type string;
+            description
+                "Description of the property";
+        }
+
+        leaf property-value {
+            type string;
+        }
+    }
+}
+}

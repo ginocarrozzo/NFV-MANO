@@ -1,0 +1,13 @@
+module: vld
+   +--rw vld
+      +--rw name?                string
+      +--rw vld-id?              yang:uuid
+      +--rw provider?            string
+      +--rw description?         string
+      +--rw version?             string
+      +--rw latency-assurance?   uint16
+      +--rw max-end-points?      uint16
+      +--rw properties* [property-id]
+         +--rw property-id             string
+         +--rw property-description?   string
+         +--rw property-value?         string

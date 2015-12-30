@@ -1,0 +1,357 @@
+module vnfd {
+
+    namespace "urn:ietf:params:xml:ns:yang:nfvo";
+    prefix "vnfd";
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+    
+    import ietf-inet-types {
+        prefix inet;
+    }
+
+    organization
+        "example.org";
+    contact
+        "Firstname Lastname - lastname@example.com";
+    description
+        "VNF Descriptor";
+
+    revision 2013-12-23 {
+        description
+            "Initial revision";
+    }
+
+    container vnfd {
+        leaf name {
+            description "VNFD Name";
+            type string;
+        }
+
+        leaf vnfd-id {
+            description "UUID of the VNF Descriptor";
+            type yang:uuid;
+        }
+
+        leaf provider {
+            description "Vendor";
+            type string;
+        }
+        
+        leaf description {
+            description "Description of the VNF";
+            type string;
+        }
+
+        leaf version {
+            description "Version";
+            type string;
+        }
+
+        container workflows {
+            container init {
+                /* Needs expansion */
+            }
+
+            container terminate {
+                /* Needs expansion */
+            }
+
+            container graceful-shutdown {
+                /* Needs expansion */
+            }
+        }
+
+        list connection-points {
+            description "External interfaces exposed by this VNF";
+            key connection-point-id;
+
+            leaf connection-point-id {
+                type string;
+            }
+
+            leaf description {
+                type string;
+                description "Description of the Connection Point";
+            }
+        }
+
+        list internal-virtual-link {
+            key connectivity-id;
+        
+            leaf connectivity-id {
+                type string;
+            }
+
+            leaf connectivity-description {
+                type string;
+                description "Description";
+            }
+
+            leaf-list connection-end-points {
+                type leafref {
+                    path "../../flavours/vdus/network-interfaces/name";
+                }
+            }
+        }
+
+        list monitoring-params {
+            key param-id;
+
+            leaf param-id {
+                type string;
+            }
+
+            leaf description {
+                type string;
+                description "Description";
+            }
+        }
+
+        list flavours {
+            key flavour-id;
+            
+            leaf flavour-id {
+                description "Flavour id";
+                type string;
+            }
+    
+            leaf description {
+                description "Description of the flavour";
+                type string;
+            }
+
+            list assurance-params {
+                description "Flavour key";
+                key param-id;
+
+                leaf param-id {
+                    type leafref {
+                        path "../../../monitoring-params/param-id";
+                    }
+                }
+
+                leaf value {
+                    type uint32;
+                }
+            }
+
+            /* TODO: Add licensing and pricing info */
+
+            list vdus {
+                description "Virtual Deployable Units";
+                key vdu-id;
+                
+                leaf vdu-id {
+                    description "";
+                    type string;
+                }
+
+                leaf num-instances {
+                    description "";
+                    type uint16;
+                }
+
+                container workflows {
+                    container init {
+                        /* Needs expension */
+                    }
+
+                    container terminate {
+                        /* Needs expension */
+                    }   
+
+                    container graceful-shutdown {
+                        /* Needs expension */
+                    }
+                }
+
+                container vm-spec {
+                    choice image {
+                        case image-uri {
+                            leaf pkg-uri {
+                                type inet:uri;
+                            }
+                        }
+
+                        case image-uuid {
+                            leaf pkg-uuid {
+                                type yang:uuid;
+                            }
+                        }
+                    }
+                }
+
+                list storage {
+                    key storage-id;
+                
+                    leaf storage-id {
+                        type string;
+                    }
+
+                    leaf size-gb {
+                        type uint16;
+                    }
+
+                    list properties {
+                        description "Properties for the storage";
+                        key property-id;
+
+                        leaf property-id {
+                            type string;
+                        }
+
+                        leaf property-description {
+                            type string;
+                            description
+                                "Description of the property";
+                        }
+
+                        leaf property-value {
+                            type string;
+                        }
+                    }
+                }
+
+                container cpu {
+                    leaf num-vpu {
+                        type int16;
+                    }
+
+                    list properties {
+                        description "Properties for the cpu";
+                        key property-id;
+    
+                        leaf property-id {
+                            type string;
+                        }
+
+                        leaf property-description {
+                            type string;
+                            description
+                                "Description of the property";
+                        }
+
+                        leaf property-value {
+                            type string;
+                        }
+                    }
+                }
+
+                container memory {
+                    leaf total-memory-gb {
+                        type int16;
+                    }
+
+                    list properties {
+                        description "Properties for the memory";                        
+                        key property-id;
+                
+                        leaf property-id {
+                            type string;
+                        }
+
+                        leaf property-description {
+                            type string;
+                            description
+                                "Description of the property";
+                        }
+
+                        leaf property-value {
+                            type string;
+                        }
+                    }
+                }
+
+                list other-constraints {
+                    description "Other Constraints for the VDU";
+                    key constraint-id;
+
+                    leaf constraint-id {
+                        type string;
+                    }
+
+                    leaf constraint-description {
+                        type string;
+                        description
+                            "Description of the constraint";
+                    }
+
+                    leaf constraint-value {
+                        type string;
+                    }
+                }
+
+                list network-interfaces {
+                    key name;
+    
+                    leaf name {
+                        type string;
+                    }
+    
+                    leaf description {
+                        type string;
+                    }
+
+                    choice connection-point {
+                        case connection-point {
+                            leaf connection-point-ref {
+                                type leafref {
+                                    path "../../../../connection-points/connection-point-id";
+                                }
+                            }
+                        }
+   
+                        case internal-connectivity {
+                            leaf internal-connectivity-ref {
+                                type leafref {
+                                   path "../../../../internal-connectivity/connectivity-id";
+                                }
+                            }
+                        }
+                    }
+
+                    list properties {
+                        description "Properties for the interface";
+                        key id;
+
+                        leaf id {
+                            type string;
+                        }
+
+                        leaf value {
+                            type string;
+                        }   
+                    }
+                }
+            }
+        }
+
+        container dependencies {
+            list vdu-dependency-list {
+                key vdu-id;
+
+                leaf vdu-id {
+                    type leafref {
+                        path "../../../flavours/vdus/vdu-id";
+                    }
+                }
+
+                leaf depends-on {
+                    type leafref {
+                        path "../../../flavours/vdus/vdu-id";
+                    }
+                }
+            }
+        }
+
+        list autoscaling-policies {
+            key scaling-policy-id;
+            
+            leaf scaling-policy-id {
+                type string;
+            }
+        }
+    }
+}

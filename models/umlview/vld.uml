@@ -1,0 +1,40 @@
+'Download plantuml from http://plantuml.sourceforge.net/ 
+'Generate png with java -jar plantuml.jar <file> 
+'Output in img/<module>.png 
+'If Java spits out memory error increase heap size with java -Xmx1024m  -jar plantuml.jar <file> 
+@startuml img/vld.png 
+hide empty fields 
+hide empty methods 
+hide <<case>> circle
+hide <<augment>> circle
+hide <<choice>> circle
+hide <<leafref>> stereotype
+hide <<leafref>> circle
+page 1x1 
+Title vld 
+package "yang:ietf-yang-types" as yang_ietf_yang_types { 
+} 
+note top of vld_vld : <b>Namespace: </b> urn:ietf:params:xml:ns:yang:nfvo \n<b>Prefix: </b> vld \n<b>Organization : </b>\nexample.org \n<b>Contact : </b>\nFirstname Lastname - lastname@example.com \n<b>Revision : </b> 2013-12-23 \n
+package "vld:vld" as vld_vld { 
+yang_ietf_yang_types +-- vld_vld
+class "vld" as vld << (M, #33CCFF) module>> 
+class "vld" as  vld_I_vld <<container>> 
+vld *-- "1" vld_I_vld 
+vld_I_vld : name : string  
+vld_I_vld : vld-id : yang:uuid  
+vld_I_vld : provider : string  
+vld_I_vld : description : string  
+vld_I_vld : version : string  
+vld_I_vld : latency-assurance : uint16  
+vld_I_vld : max-end-points : uint16  
+class "properties" as vld_I_vld_I_properties << (L, #FF7700) list>> 
+vld_I_vld *-- "0..N" vld_I_vld_I_properties 
+vld_I_vld_I_properties : +property-id : string  {key} 
+vld_I_vld_I_properties : property-description : string  
+vld_I_vld_I_properties : property-value : string  
+} 
+
+center footer
+ <size:20> UML Generated : 2015-12-30 15:51 </size>
+ endfooter 
+@enduml 

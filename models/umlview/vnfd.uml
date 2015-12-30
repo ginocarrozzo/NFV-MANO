@@ -1,0 +1,148 @@
+'Download plantuml from http://plantuml.sourceforge.net/ 
+'Generate png with java -jar plantuml.jar <file> 
+'Output in img/<module>.png 
+'If Java spits out memory error increase heap size with java -Xmx1024m  -jar plantuml.jar <file> 
+@startuml img/vnfd.png 
+hide empty fields 
+hide empty methods 
+hide <<case>> circle
+hide <<augment>> circle
+hide <<choice>> circle
+hide <<leafref>> stereotype
+hide <<leafref>> circle
+page 1x1 
+Title vnfd 
+package "yang:ietf-yang-types" as yang_ietf_yang_types { 
+} 
+package "inet:ietf-inet-types" as inet_ietf_inet_types { 
+} 
+note top of vnfd_vnfd : <b>Namespace: </b> urn:ietf:params:xml:ns:yang:nfvo \n<b>Prefix: </b> vnfd \n<b>Organization : </b>\nexample.org \n<b>Contact : </b>\nFirstname Lastname - lastname@example.com \n<b>Revision : </b> 2013-12-23 \n
+package "vnfd:vnfd" as vnfd_vnfd { 
+yang_ietf_yang_types +-- vnfd_vnfd
+inet_ietf_inet_types +-- vnfd_vnfd
+class "vnfd" as vnfd << (M, #33CCFF) module>> 
+class "vnfd" as  vnfd_I_vnfd <<container>> 
+vnfd *-- "1" vnfd_I_vnfd 
+vnfd_I_vnfd : name : string  
+vnfd_I_vnfd : vnfd-id : yang:uuid  
+vnfd_I_vnfd : provider : string  
+vnfd_I_vnfd : description : string  
+vnfd_I_vnfd : version : string  
+class "workflows" as  vnfd_I_vnfd_I_workflows <<container>> 
+vnfd_I_vnfd *-- "1" vnfd_I_vnfd_I_workflows 
+class "init" as  vnfd_I_vnfd_I_workflows_I_init <<container>> 
+vnfd_I_vnfd_I_workflows *-- "1" vnfd_I_vnfd_I_workflows_I_init 
+class "terminate" as  vnfd_I_vnfd_I_workflows_I_terminate <<container>> 
+vnfd_I_vnfd_I_workflows *-- "1" vnfd_I_vnfd_I_workflows_I_terminate 
+class "graceful-shutdown" as  vnfd_I_vnfd_I_workflows_I_graceful_shutdown <<container>> 
+vnfd_I_vnfd_I_workflows *-- "1" vnfd_I_vnfd_I_workflows_I_graceful_shutdown 
+class "connection-points" as vnfd_I_vnfd_I_connection_points << (L, #FF7700) list>> 
+vnfd_I_vnfd *-- "0..N" vnfd_I_vnfd_I_connection_points 
+vnfd_I_vnfd_I_connection_points : +connection-point-id : string  {key} 
+vnfd_I_vnfd_I_connection_points : description : string  
+class "internal-virtual-link" as vnfd_I_vnfd_I_internal_virtual_link << (L, #FF7700) list>> 
+vnfd_I_vnfd *-- "0..N" vnfd_I_vnfd_I_internal_virtual_link 
+vnfd_I_vnfd_I_internal_virtual_link : +connectivity-id : string  {key} 
+vnfd_I_vnfd_I_internal_virtual_link : connectivity-description : string  
+vnfd_I_vnfd_I_internal_virtual_link : connection-end-points []: leafref : ../../flavours/vdus/network-interfaces/name 
+class "monitoring-params" as vnfd_I_vnfd_I_monitoring_params << (L, #FF7700) list>> 
+vnfd_I_vnfd *-- "0..N" vnfd_I_vnfd_I_monitoring_params 
+vnfd_I_vnfd_I_monitoring_params : +param-id : string  {key} 
+vnfd_I_vnfd_I_monitoring_params : description : string  
+class "flavours" as vnfd_I_vnfd_I_flavours << (L, #FF7700) list>> 
+vnfd_I_vnfd *-- "0..N" vnfd_I_vnfd_I_flavours 
+vnfd_I_vnfd_I_flavours : +flavour-id : string  {key} 
+vnfd_I_vnfd_I_flavours : description : string  
+class "assurance-params" as vnfd_I_vnfd_I_flavours_I_assurance_params << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours *-- "0..N" vnfd_I_vnfd_I_flavours_I_assurance_params 
+vnfd_I_vnfd_I_flavours_I_assurance_params : +param-id : leafref : ../../../monitoring-params/param-id  {key} 
+vnfd_I_vnfd_I_flavours_I_assurance_params : value : uint32  
+class "vdus" as vnfd_I_vnfd_I_flavours_I_vdus << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus 
+vnfd_I_vnfd_I_flavours_I_vdus : +vdu-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus : num-instances : uint16  
+class "workflows" as  vnfd_I_vnfd_I_flavours_I_vdus_I_workflows <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_workflows 
+class "init" as  vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_init <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_workflows *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_init 
+class "terminate" as  vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_terminate <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_workflows *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_terminate 
+class "graceful-shutdown" as  vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_graceful_shutdown <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_workflows *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_workflows_I_graceful_shutdown 
+class "vm-spec" as  vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec 
+class "image" as vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image <<choice>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec .. vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image : choice 
+class "image-uri" as vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uri_case <<case>>
+vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image .. vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uri_case  : choice image
+vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uri_case : pkg-uri : inet:uri  
+class "image-uuid" as vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uuid_case <<case>>
+vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image .. vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uuid_case  : choice image
+vnfd_I_vnfd_I_flavours_I_vdus_I_vm_spec_I_image_I_image_uuid_case : pkg-uuid : yang:uuid  
+class "storage" as vnfd_I_vnfd_I_flavours_I_vdus_I_storage << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_storage 
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage : +storage-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage : size-gb : uint16  
+class "properties" as vnfd_I_vnfd_I_flavours_I_vdus_I_storage_I_properties << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_storage_I_properties 
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage_I_properties : +property-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage_I_properties : property-description : string  
+vnfd_I_vnfd_I_flavours_I_vdus_I_storage_I_properties : property-value : string  
+class "cpu" as  vnfd_I_vnfd_I_flavours_I_vdus_I_cpu <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_cpu 
+vnfd_I_vnfd_I_flavours_I_vdus_I_cpu : num-vpu : int16  
+class "properties" as vnfd_I_vnfd_I_flavours_I_vdus_I_cpu_I_properties << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_cpu *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_cpu_I_properties 
+vnfd_I_vnfd_I_flavours_I_vdus_I_cpu_I_properties : +property-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_cpu_I_properties : property-description : string  
+vnfd_I_vnfd_I_flavours_I_vdus_I_cpu_I_properties : property-value : string  
+class "memory" as  vnfd_I_vnfd_I_flavours_I_vdus_I_memory <<container>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "1" vnfd_I_vnfd_I_flavours_I_vdus_I_memory 
+vnfd_I_vnfd_I_flavours_I_vdus_I_memory : total-memory-gb : int16  
+class "properties" as vnfd_I_vnfd_I_flavours_I_vdus_I_memory_I_properties << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_memory *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_memory_I_properties 
+vnfd_I_vnfd_I_flavours_I_vdus_I_memory_I_properties : +property-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_memory_I_properties : property-description : string  
+vnfd_I_vnfd_I_flavours_I_vdus_I_memory_I_properties : property-value : string  
+class "other-constraints" as vnfd_I_vnfd_I_flavours_I_vdus_I_other_constraints << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_other_constraints 
+vnfd_I_vnfd_I_flavours_I_vdus_I_other_constraints : +constraint-id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_other_constraints : constraint-description : string  
+vnfd_I_vnfd_I_flavours_I_vdus_I_other_constraints : constraint-value : string  
+class "network-interfaces" as vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces : +name : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces : description : string  
+class "connection-point" as vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point <<choice>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces .. vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point : choice 
+class "connection-point" as vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_connection_point_case <<case>>
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point .. vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_connection_point_case  : choice connection-point
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_connection_point_case : connection-point-ref : leafref : ../../../../connection-points/connection-point-id  
+class "internal-connectivity" as vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_internal_connectivity_case <<case>>
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point .. vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_internal_connectivity_case  : choice connection-point
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_internal_connectivity_case : internal-connectivity-ref : leafref : ../../../../internal-virtual-link/connectivity-id  
+class "properties" as vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_properties << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces *-- "0..N" vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_properties 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_properties : +id : string  {key} 
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_properties : value : string  
+class "dependencies" as  vnfd_I_vnfd_I_dependencies <<container>> 
+vnfd_I_vnfd *-- "1" vnfd_I_vnfd_I_dependencies 
+class "vdu-dependency-list" as vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list << (L, #FF7700) list>> 
+vnfd_I_vnfd_I_dependencies *-- "0..N" vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list 
+vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list : +vdu-id : leafref : ../../../flavours/vdus/vdu-id  {key} 
+vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list : depends-on : leafref : ../../../flavours/vdus/vdu-id  
+class "autoscaling-policies" as vnfd_I_vnfd_I_autoscaling_policies << (L, #FF7700) list>> 
+vnfd_I_vnfd *-- "0..N" vnfd_I_vnfd_I_autoscaling_policies 
+vnfd_I_vnfd_I_autoscaling_policies : +scaling-policy-id : string  {key} 
+} 
+
+vnfd_I_vnfd_I_internal_virtual_link-->"name"vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces: connection-end-points
+vnfd_I_vnfd_I_flavours_I_assurance_params-->"param-id"vnfd_I_vnfd_I_monitoring_params: param-id
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_connection_point_case-->"connection-point-id"vnfd_I_vnfd_I_connection_points: connection-point-ref
+vnfd_I_vnfd_I_flavours_I_vdus_I_network_interfaces_I_connection_point_I_internal_connectivity_case-->"connectivity-id"vnfd_I_vnfd_I_internal_virtual_link: internal-connectivity-ref
+vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list-->"vdu-id"vnfd_I_vnfd_I_flavours_I_vdus: vdu-id
+vnfd_I_vnfd_I_dependencies_I_vdu_dependency_list-->"vdu-id"vnfd_I_vnfd_I_flavours_I_vdus: depends-on
+center footer
+ <size:20> UML Generated : 2015-12-30 15:51 </size>
+ endfooter 
+@enduml 

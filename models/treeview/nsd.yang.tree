@@ -1,0 +1,29 @@
+module: nsd
+   +--rw nsd
+      +--rw name?                string
+      +--rw id?                  yang:uuid
+      +--rw vendor?              string
+      +--rw description?         string
+      +--rw version?             string
+      +--rw monitoring-params* [param-id]
+      |  +--rw param-id       string
+      |  +--rw description?   string
+      +--rw connection-points* [connection-point-id]
+      |  +--rw connection-point-id    string
+      |  +--rw description?           string
+      +--rw flavours* [flavour-id]
+         +--rw flavour-id          string
+         +--rw description?        string
+         +--rw flavour-key* [param-id]
+         |  +--rw param-id    -> ../../../monitoring-params/param-id
+         |  +--rw value?      uint32
+         +--rw constituent-vnfs* [member-vnf-id]
+         |  +--rw member-vnf-id    string
+         |  +--rw vnfd?            yang:uuid
+         +--rw vnf-dependencies
+         |  +--rw vvnf-dependency-list* [vnf-id]
+         |     +--rw vnf-id        -> ../../../constituent-vnfs/member-vnf-id
+         |     +--rw depends-on?   -> ../../../constituent-vnfs/member-vnf-id
+         +--rw member-vlds* [member-vld-id]
+            +--rw member-vld-id    string
+            +--rw vld-id?          yang:uuid
